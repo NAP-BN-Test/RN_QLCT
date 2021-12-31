@@ -5,7 +5,7 @@ import AuthStackScreen from '../Auth/AuthStackScreen';
 
 function RootStackScreen() {
   const auth: any = {accesstoken: ''};
-  return auth.accesstoken != '' ? (
+  return auth.accesstoken == '' ? (
     <AppStackScreen />
   ) : (
     //  <Text>ok</Text>

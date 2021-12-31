@@ -18,7 +18,7 @@ const AppStackScreen = ({navigation}: any) => {
         }
       }>
       <AppStack.Screen
-        options={{headerTitle: props => <Header {...props} />}}
+        options={{headerTitle: (props: any) => <Header {...props} />}}
         name="main"
         component={TabHomeNavigation}
       />
