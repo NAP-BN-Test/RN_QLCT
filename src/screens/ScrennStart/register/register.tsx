@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
-import {Button, Text, View} from 'react-native';
-import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
-import {StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import IconEntypo from 'react-native-vector-icons/Entypo';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { postRegister } from '../../../features/account';
+import { useAppDispatch } from '../../../redux/hooks';
+import { RegisterType } from '../../../types';
 const iconWhat = <Icon name="whatsapp" size={38} color="#961d1d" />;
 const iconFB = (
   <IconEntypo name="facebook-with-circle" size={38} color="#23527c" />
@@ -13,33 +15,30 @@ const iconGG = (
 );
 const iconPhone = <IconEntypo name="old-phone" size={38} color="#23527c" />;
 const Register = ({navigation}: any) => {
+  const dispatch = useAppDispatch();
+  // dispatch api
+  const handlePostRegister = (data: RegisterType) =>
+    dispatch(postRegister(data));
+    
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [comfirmpassword, setComfirmPassword] = useState('');
+  const [address, setAddress] = useState('');
   const [numberphone, setNumberphone] = useState('');
+  const [userName, setUserName] = useState('');
   return (
     <View style={[styles.container, {padding: 20}]}>
       <View>
         {/* <Text style={styles.title}>Register</Text> */}
         <TextInput
           style={styles.input}
-          placeholder="E-mail"
+          placeholder="UserName"
           placeholderTextColor="#aaaaaa"
-          onChangeText={text => setEmail(text)}
-          value={email}
+          onChangeText={text => setUserName(text)}
+          value={userName}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Phone number"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={text => setNumberphone(text)}
-          value={numberphone}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-          keyboardType="number-pad"
-        />
+
         <TextInput
           style={styles.input}
           placeholderTextColor="#aaaaaa"
@@ -50,21 +49,47 @@ const Register = ({navigation}: any) => {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
+        <TextInput
+          style={styles.input}
+          placeholder="PhoneNumber"
+          placeholderTextColor="#aaaaaa"
+          onChangeText={text => setNumberphone(text)}
+          value={numberphone}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          keyboardType="number-pad"
+        />
+        <TextInput
+          style={styles.input}
+          placeholderTextColor="#aaaaaa"
+          placeholder="Email"
+          onChangeText={text => setEmail(text)}
+          value={email}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+        />
 
         <TextInput
           style={styles.input}
           placeholderTextColor="#aaaaaa"
-          secureTextEntry
-          placeholder="Comfirm Password"
-          onChangeText={text => setPassword(text)}
-          value={password}
+          placeholder="Address"
+          onChangeText={text => setAddress(text)}
+          value={address}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
+
         <TouchableOpacity
           style={styles.button}
-          //   onPress={() => onLoginPress()}
-        >
+          onPress={() =>
+            handlePostRegister({
+              username: userName,
+              password: password,
+              phonenumber: numberphone,
+              email: email,
+              address: address,
+            })
+          }>
           <Text style={styles.buttonTitle}>Register</Text>
         </TouchableOpacity>
       </View>
@@ -132,5 +157,4 @@ export const styles = StyleSheet.create({
     opacity: 0.5,
     textAlign: 'center',
   },
-  
 });

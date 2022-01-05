@@ -1,12 +1,13 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import Counter from '../../component/counterSlice/Couter';
 import Login from '../../screens/ScrennStart/login/login';
 import Register from '../../screens/ScrennStart/register/register';
 import Forgotpass from '../../screens/ScrennStart/forgotpassword/forgotpass';
 const AuthStack = createStackNavigator();
 
 const AuthStackScreen = ({navigation}: any) => {
+  
+
   return (
     <AuthStack.Navigator
       initialRouteName="login"

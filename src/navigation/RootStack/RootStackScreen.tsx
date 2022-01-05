@@ -1,16 +1,15 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
+import { accountStore } from '../../features';
+import { useAppSelector } from '../../redux/hooks';
 import AppStackScreen from '../AppStack/AppStackScreen';
 import AuthStackScreen from '../Auth/AuthStackScreen';
 
 function RootStackScreen() {
-  const auth: any = {accesstoken: ''};
-  return auth.accesstoken == '' ? (
+  const resultAccount = useAppSelector(accountStore);
+  return resultAccount.token != '' ? (
     <AppStackScreen />
   ) : (
-    //  <Text>ok</Text>
-    // <AuthStackScreen />
-    // <Text>No</Text>
     <AuthStackScreen />
   );
 }

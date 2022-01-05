@@ -40,12 +40,9 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <Provider store={store}>
-        {/* <Counter /> */}
         <View style={{display: 'flex', flex: 1}}>
           <NavigationContainer>
             <StatusBar barStyle="dark-content" backgroundColor="#ffff" />
-            {/* <Login /> */}
-
             <RootStackScreen />
           </NavigationContainer>
         </View>

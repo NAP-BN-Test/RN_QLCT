@@ -4,6 +4,9 @@ import {TextInput} from 'react-native-gesture-handler';
 import {StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconEntypo from 'react-native-vector-icons/Entypo';
+import {useAppDispatch} from '../../../redux/hooks';
+import {LoginType} from '../../../types';
+import {postLogin} from '../../../features/account';
 // import {useNavigation} from '@react-navigation/native';
 const iconWhat = <Icon name="whatsapp" size={38} color="#961d1d" />;
 const iconFB = (
@@ -15,7 +18,10 @@ const iconGG = (
 const iconPhone = <IconEntypo name="old-phone" size={38} color="#23527c" />;
 const Login = ({navigation}: any) => {
   //   const navigate = useNavigation();
-  const [email, setEmail] = useState('');
+  const dispatch = useAppDispatch();
+  // dispatch api
+  const handlePostLogin = (data: LoginType) => dispatch(postLogin(data));
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   return (
     <View style={[styles.container, {padding: 20}]}>
@@ -25,8 +31,8 @@ const Login = ({navigation}: any) => {
           style={styles.input}
           placeholder="E-mail"
           placeholderTextColor="#aaaaaa"
-          onChangeText={text => setEmail(text)}
-          value={email}
+          onChangeText={text => setUsername(text)}
+          value={username}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
@@ -42,8 +48,12 @@ const Login = ({navigation}: any) => {
         />
         <TouchableOpacity
           style={styles.button}
-          //   onPress={() => onLoginPress()}
-        >
+          onPress={() =>
+            handlePostLogin({
+              username: username,
+              password: password,
+            })
+          }>
           <Text style={styles.buttonTitle}>Signin</Text>
         </TouchableOpacity>
         <TouchableOpacity
