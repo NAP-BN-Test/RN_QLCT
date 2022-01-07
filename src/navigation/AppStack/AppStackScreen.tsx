@@ -10,6 +10,8 @@ import {Header} from 'react-native/Libraries/NewAppScreen';
 import Home from '../../screens/ScrennStart/Home/home';
 import Hearder from '../../component/header/header';
 import InfoUser from '../../screens/ScrennStart/user/infoUser/infoUser';
+import EditUse from '../../screens/ScrennStart/user/editUser/EditUse';
+import ChangePassword from '../../screens/ScrennStart/user/changePassword/changePassword';
 const AppStack = createStackNavigator();
 
 const AppStackScreen = ({navigation}: any) => {
@@ -35,6 +37,24 @@ const AppStackScreen = ({navigation}: any) => {
         }}
         name="infouser"
         component={InfoUser}
+      />
+
+      <AppStack.Screen
+        options={{
+          title: 'Thay đổi thông tin tải khoản',
+          // headerShown: false,
+        }}
+        name="edituser"
+        component={EditUse}
+      />
+
+      <AppStack.Screen
+        options={{
+          title: 'Đổi mật khẩu',
+          // headerShown: false,
+        }}
+        name="changepassword"
+        component={ChangePassword}
       />
     </AppStack.Navigator>
   );

@@ -13,7 +13,6 @@ function AllOption({navigation}: any) {
   const dispatch = useDispatch();
   const handlePostLogOut = () => dispatch(postLogout());
   const resultAccount = useAppSelector(accountStore);
-  console.log('resultAccount', resultAccount);
   const [visible, setVisible] = useState(false);
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>

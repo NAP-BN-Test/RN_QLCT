@@ -35,4 +35,9 @@ export interface CustomesAccount {
   token: string;
   error: boolean;
 }
+export interface ChangePassword {
+  id: number,
+  oldpassword: string,
+  newpassword: string,
+}
 export type RegisterType = LoginType & Register;

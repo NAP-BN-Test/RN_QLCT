@@ -6,8 +6,6 @@ import {accountStore} from '../../../../features';
 import {ScreenHeight, useAppSelector} from '../../../../redux/hooks';
 function InfoUser({navigation}: any) {
   const resultAccount = useAppSelector(accountStore);
-  console.log(resultAccount);
-
   return (
     <View style={{backgroundColor: '#fff', height: ScreenHeight, flex: 1}}>
       <View
@@ -77,6 +75,7 @@ function InfoUser({navigation}: any) {
         ]}>
         <TouchableOpacity
           activeOpacity={0.6}
+          onPress={() => navigation.navigate('edituser')}
           style={[
             stylesGlobal.flex_center,
             {
@@ -89,23 +88,25 @@ function InfoUser({navigation}: any) {
           ]}>
           <Text style={{color: '#000', fontWeight: '400'}}>Sửa</Text>
         </TouchableOpacity>
-        
       </View>
 
-      <View
-        style={{
-          width: '100%',
-          height: 1,
-          opacity: 0.4,
-          backgroundColor: '#000',
-          //   marginBottom: 20,
-        }}></View>
-
-        
-
-      <View style={{marginTop: 20, paddingHorizontal: 40, marginBottom: 20}}>
-        <View style={{display: 'flex', flexDirection: 'row', marginBottom: 10}}>
-          <Text style={{marginRight: 10}}>User Name:</Text>
+      <View style={{marginTop: 20, paddingHorizontal: 20, marginBottom: 20}}>
+        <View
+          style={{
+            width: '100%',
+            height: 1,
+            opacity: 0.4,
+            backgroundColor: '#000',
+            //   marginBottom: 20,
+          }}></View>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            marginBottom: 10,
+            marginTop: 10,
+          }}>
+          <Text style={{marginRight: 10}}>UserName:</Text>
           <Text style={{color: '#000', fontWeight: '400'}}>
             {resultAccount.listuser.username.toUpperCase()}
           </Text>
@@ -117,29 +118,45 @@ function InfoUser({navigation}: any) {
           </Text>
         </View>
         <View style={{display: 'flex', flexDirection: 'row', marginBottom: 10}}>
-          <Text style={{marginRight: 10}}>Phone Number:</Text>
+          <Text style={{marginRight: 10}}>Số điện thoại:</Text>
           <Text style={{color: '#000', fontWeight: '400'}}>
             {resultAccount.listuser.phonenumber.toUpperCase()}
           </Text>
         </View>
         <View style={{display: 'flex', flexDirection: 'row', marginBottom: 10}}>
-          <Text style={{marginRight: 10}}>Address:</Text>
+          <Text style={{marginRight: 10}}>Địa chỉ:</Text>
           <Text style={{color: '#000', fontWeight: '400'}}>
             {resultAccount.listuser.address.toUpperCase()}
           </Text>
         </View>
+
+        <View
+          style={{
+            width: '100%',
+            height: 1,
+            opacity: 0.4,
+            backgroundColor: '#000',
+            marginBottom: 20,
+          }}></View>
+
+        <View style={{paddingHorizontal: 30}}>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() => navigation.navigate('changepassword')}
+            style={[
+              stylesGlobal.flex_center,
+              {
+                borderRadius: 8,
+                borderWidth: 1,
+                borderColor: 'gray',
+                width: '100%',
+                height: 30,
+              },
+            ]}>
+            <Text style={{color: '#000', fontWeight: '400'}}>Đổi mật khẩu</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-
-      <View
-        style={{
-          width: '100%',
-          height: 1,
-          opacity: 0.4,
-          backgroundColor: '#000',
-          //   marginBottom: 20,
-        }}></View>
-
-      
     </View>
   );
 }

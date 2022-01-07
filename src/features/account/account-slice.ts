@@ -1,6 +1,6 @@
 import {ActionReducerMapBuilder, createSlice} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {checkToken, postLogin, postLogout, postRegister} from '.';
+import {ChangePass, checkToken, postLogin, postLogout, postRegister} from '.';
 import {RootState} from '../../redux/store';
 import {Account, CustomesAccount} from '../../types';
 import queryString from 'query-string';
@@ -73,7 +73,7 @@ const accountSlice = createSlice({
       })
       .addCase(checkToken.fulfilled, (state, action) => {
         console.log('action.payload', action.payload);
-        
+
         state.listuser = action.payload;
         state.token = token._W;
         state.loading = false;
@@ -83,6 +83,25 @@ const accountSlice = createSlice({
       .addCase(checkToken.rejected, state => {
         state.loading = false;
         console.log('Đăng nhập không thành công');
+      });
+
+    //ChangePass
+
+    builder
+      .addCase(ChangePass.pending, state => {
+        state.loading = true;
+      })
+      .addCase(ChangePass.fulfilled, (state, action) => {
+        console.log('action payload', action.payload);
+
+        state.listuser = action.payload;
+        state.loading = false;
+        state.error = false;
+        console.log('Đổi mật khẩu thành công');
+      })
+      .addCase(ChangePass.rejected, state => {
+        state.loading = false;
+        console.log('Đổi mật khẩu thất bại');
       });
   },
 });

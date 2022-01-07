@@ -1,6 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import accountAPI from '../../commom/api/api-account';
-import {LoginType, RegisterType} from '../../types';
+import {ChangePassword, LoginType, RegisterType} from '../../types';
 
 export const postLogin = createAsyncThunk(
   '/account/login',
@@ -26,3 +26,15 @@ export const checkToken = createAsyncThunk('/account/checktoken', async () => {
   const response = await accountAPI.postCheckToken();
   return response.result;
 });
+
+export const ChangePass = createAsyncThunk(
+  '/account/changepassword',
+  async (data: ChangePassword) => {
+    console.log('data chuyền vào', data);
+    
+    const response = await accountAPI.postChangePassWord(data);
+    console.log('ChangePassword', response);
+    
+    return response.result;
+  },
+);

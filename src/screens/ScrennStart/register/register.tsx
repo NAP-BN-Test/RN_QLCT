@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { postRegister } from '../../../features/account';
-import { useAppDispatch } from '../../../redux/hooks';
-import { RegisterType } from '../../../types';
+import ModalPoup from '../../../component/Modal/Modal';
+import Notify from '../../../component/Notify/Notify';
+import {postRegister} from '../../../features/account';
+import {useAppDispatch} from '../../../redux/hooks';
+import {RegisterType} from '../../../types';
 const iconWhat = <Icon name="whatsapp" size={38} color="#961d1d" />;
 const iconFB = (
   <IconEntypo name="facebook-with-circle" size={38} color="#23527c" />
@@ -17,14 +19,25 @@ const iconPhone = <IconEntypo name="old-phone" size={38} color="#23527c" />;
 const Register = ({navigation}: any) => {
   const dispatch = useAppDispatch();
   // dispatch api
-  const handlePostRegister = (data: RegisterType) =>
-    dispatch(postRegister(data));
-    
+  const handlePostRegister = (data: RegisterType) => {
+    if (data.password != repassword) {
+      console.log('Mật khẩu không khớp');
+    } else {
+      if ((userName.length || password.length || email.length) <= 0) {
+        console.log('Vui lòng nhập đầy đủ thông tin');
+      } else {
+        dispatch(postRegister(data));
+      }
+    }
+  };
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [repassword, setRepassword] = useState('');
   const [address, setAddress] = useState('');
   const [numberphone, setNumberphone] = useState('');
   const [userName, setUserName] = useState('');
+  const [visible, setVisible] = useState(false);
   return (
     <View style={[styles.container, {padding: 20}]}>
       <View>
@@ -39,16 +52,6 @@ const Register = ({navigation}: any) => {
           autoCapitalize="none"
         />
 
-        <TextInput
-          style={styles.input}
-          placeholderTextColor="#aaaaaa"
-          secureTextEntry
-          placeholder="Password"
-          onChangeText={text => setPassword(text)}
-          value={password}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
         <TextInput
           style={styles.input}
           placeholder="PhoneNumber"
@@ -79,6 +82,28 @@ const Register = ({navigation}: any) => {
           autoCapitalize="none"
         />
 
+        <TextInput
+          style={styles.input}
+          placeholderTextColor="#aaaaaa"
+          secureTextEntry
+          placeholder="Password"
+          onChangeText={text => setPassword(text)}
+          value={password}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholderTextColor="#aaaaaa"
+          secureTextEntry
+          placeholder="Repassword"
+          onChangeText={text => setRepassword(text)}
+          value={repassword}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+        />
+
         <TouchableOpacity
           style={styles.button}
           onPress={() =>
@@ -93,6 +118,14 @@ const Register = ({navigation}: any) => {
           <Text style={styles.buttonTitle}>Register</Text>
         </TouchableOpacity>
       </View>
+
+      {/* <ModalPoup visible={visible}>
+        <Notify
+          onPress={() => setVisible(false)}
+          content="Đăng nhập không thành công"
+          type="error"
+        />
+      </ModalPoup> */}
     </View>
   );
 };

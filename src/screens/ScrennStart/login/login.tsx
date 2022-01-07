@@ -27,7 +27,6 @@ const Login = ({navigation}: any) => {
 
   const dispatch = useAppDispatch();
   const resultAccount = useAppSelector(accountStore);
-  console.log('resultAccount', resultAccount);
 
   useEffect(() => {
     if (resultAccount.loading == false) {

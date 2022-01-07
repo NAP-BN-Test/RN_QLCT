@@ -1,5 +1,5 @@
 
-import { AccountResponseLogin, AccountResponseRegister, LoginType, RegisterType } from "../../types";
+import { AccountResponseLogin, AccountResponseRegister, ChangePassword, LoginType, RegisterType } from "../../types";
 import axiosClient from "./axios-client";
 
 const accountAPI = {
@@ -15,6 +15,11 @@ const accountAPI = {
     postCheckToken(): Promise<any> {
         const url = "checktoken";
         return axiosClient.post(url);
+    },
+
+    postChangePassWord(data: ChangePassword): Promise<any> {
+        const url = "auth/changepassword";
+        return axiosClient.post(url, data);
     },
 };
 export default accountAPI;
