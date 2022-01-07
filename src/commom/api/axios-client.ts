@@ -3,12 +3,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 import {REACT_APP_API_URL} from './apiKey';
 
-const retriveData = async () => {
-  let value: any = await AsyncStorage.getItem('token');
-  return JSON.parse(value || '{}');
+export const retriveData = async () => {
+  let value: string = (await AsyncStorage.getItem('token')) || '';
+  console.log('value token', value);
+  
+  return value;
+  // return JSON.parse(value);
+
 };
 
-var token: any = retriveData();
+export var token: any = retriveData();
 
 const axiosClient = axios.create({
   baseURL: REACT_APP_API_URL,
@@ -22,7 +26,7 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use(
   //   (config: AxiosRequestConfig) => {
   (config: any) => {
-    const accessToken: any = token;
+    const accessToken: any = token._W;
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }

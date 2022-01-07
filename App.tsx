@@ -28,6 +28,7 @@ import Counter from './src/component/counterSlice/Couter';
 import Login from './src/screens/ScrennStart/login/login';
 import RootStackScreen from './src/navigation/RootStack/RootStackScreen';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import { ScreenHeight } from './src/redux/hooks';
 const App = () => {
   const MyTheme = {
     ...DefaultTheme,
@@ -40,12 +41,11 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <Provider store={store}>
-        <View style={{display: 'flex', flex: 1}}>
           <NavigationContainer>
-            <StatusBar barStyle="dark-content" backgroundColor="#ffff" />
+            <StatusBar barStyle="dark-content" backgroundColor="#fff" />
             <RootStackScreen />
+            
           </NavigationContainer>
-        </View>
       </Provider>
     </SafeAreaProvider>
   );

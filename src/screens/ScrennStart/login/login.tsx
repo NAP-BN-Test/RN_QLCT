@@ -1,12 +1,18 @@
-import React, {useState} from 'react';
-import {Button, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useMemo, useState} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
-import {StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import IconEntypo from 'react-native-vector-icons/Entypo';
-import {useAppDispatch} from '../../../redux/hooks';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {retriveData, token} from '../../../commom/api';
+import Loading from '../../../component/loading/loading';
+import ModalPoup from '../../../component/Modal/Modal';
+import Notify from '../../../component/Notify/Notify';
+import {accountStore} from '../../../features';
+import {checkToken, postLogin} from '../../../features/account';
+import {isLoadingGL} from '../../../features/loadingGlobal';
+import {useAppDispatch, useAppSelector} from '../../../redux/hooks';
 import {LoginType} from '../../../types';
-import {postLogin} from '../../../features/account';
+import {styles} from './styleLogin';
 // import {useNavigation} from '@react-navigation/native';
 const iconWhat = <Icon name="whatsapp" size={38} color="#961d1d" />;
 const iconFB = (
@@ -18,11 +24,43 @@ const iconGG = (
 const iconPhone = <IconEntypo name="old-phone" size={38} color="#23527c" />;
 const Login = ({navigation}: any) => {
   //   const navigate = useNavigation();
+
   const dispatch = useAppDispatch();
+  const resultAccount = useAppSelector(accountStore);
+  console.log('resultAccount', resultAccount);
+
+  useEffect(() => {
+    if (resultAccount.loading == false) {
+      if (resultAccount.error == true) {
+        setVisible(true);
+      } else {
+        setVisible(false);
+      }
+    } else {
+      console.log('Đang xử lý');
+    }
+
+    console.log(1);
+  }, [resultAccount.loading]);
+
+  useEffect(() => {
+    if (token) {
+      console.log('Check token', token._W);
+      dispatch(checkToken());
+      //Gọi đến hàm check token
+      //Có sẽ login
+      //Không sẽ logout ra màn login
+    }
+  }, []);
+
   // dispatch api
-  const handlePostLogin = (data: LoginType) => dispatch(postLogin(data));
+  const handlePostLogin = (data: LoginType) => {
+    dispatch(postLogin(data));
+  };
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [visible, setVisible] = React.useState(false);
+
   return (
     <View style={[styles.container, {padding: 20}]}>
       <View>
@@ -118,86 +156,16 @@ const Login = ({navigation}: any) => {
           <Text style={styles.buttonTitleFooter}>Register</Text>
         </TouchableOpacity>
       </View>
+
+      <ModalPoup visible={visible}>
+        <Notify
+          onPress={() => setVisible(false)}
+          content="Đăng nhập không thành công"
+          type="error"
+        />
+      </ModalPoup>
     </View>
   );
 };
 
 export default Login;
-
-export const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    height: '100%',
-    //   alignItems: 'center',
-    flexDirection: 'column',
-    // flex: 1,
-    // alignItems: 'center',
-    // backgroundColor: '#ffff',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '600',
-    marginBottom: 10,
-    color: '#000',
-  },
-  input: {
-    height: 48,
-    borderRadius: 5,
-    overflow: 'hidden',
-    backgroundColor: 'white',
-    marginTop: 10,
-    marginBottom: 10,
-    paddingLeft: 16,
-  },
-  button: {
-    backgroundColor: '#000',
-    marginTop: 20,
-    height: 48,
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonTitle: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-
-  buttonFooter: {
-    backgroundColor: '#ffff',
-    marginTop: 20,
-    height: 48,
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  buttonTitleFooter: {
-    color: 'black',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-
-  textDemo: {
-    color: '#000',
-    fontWeight: '400',
-    fontSize: 14,
-    opacity: 0.5,
-    textAlign: 'center',
-  },
-  //   footerView: {
-  //     flex: 1,
-  //     alignItems: 'center',
-  //     marginTop: 20,
-  //   },
-  //   footerText: {
-  //     fontSize: 16,
-  //     color: '#2e2e2d',
-  //   },
-  //   footerLink: {
-  //     color: '#788eec',
-  //     fontWeight: 'bold',
-  //     fontSize: 16,
-  //   },
-});

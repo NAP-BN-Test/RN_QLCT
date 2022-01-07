@@ -7,6 +7,9 @@ import Forgotpass from '../../screens/ScrennStart/forgotpassword/forgotpass';
 import Error404 from '../../screens/Error404/Error404';
 import TabHomeNavigation from '../TabNavigation/TabHomeNavigation';
 import {Header} from 'react-native/Libraries/NewAppScreen';
+import Home from '../../screens/ScrennStart/Home/home';
+import Hearder from '../../component/header/header';
+import InfoUser from '../../screens/ScrennStart/user/infoUser/infoUser';
 const AppStack = createStackNavigator();
 
 const AppStackScreen = ({navigation}: any) => {
@@ -18,17 +21,20 @@ const AppStackScreen = ({navigation}: any) => {
         }
       }>
       <AppStack.Screen
-        options={{headerTitle: (props: any) => <Header {...props} />}}
+        options={{
+          // headerTitle: (props: any) =><Hearder {...props}/>,
+          headerShown: false,
+        }}
         name="main"
         component={TabHomeNavigation}
       />
       <AppStack.Screen
         options={{
-          // title: 'Đăng nhập',
-          headerShown: false,
+          title: 'Thông tin tải khoản',
+          // headerShown: false,
         }}
-        name="home"
-        component={Error404}
+        name="infouser"
+        component={InfoUser}
       />
     </AppStack.Navigator>
   );

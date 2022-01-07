@@ -11,5 +11,10 @@ const accountAPI = {
         const url = "auth/register";
         return axiosClient.post(url, data);
     },
+
+    postCheckToken(): Promise<any> {
+        const url = "checktoken";
+        return axiosClient.post(url);
+    },
 };
 export default accountAPI;

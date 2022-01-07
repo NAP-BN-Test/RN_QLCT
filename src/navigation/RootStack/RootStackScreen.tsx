@@ -1,24 +1,32 @@
-import React from 'react';
-import {StyleSheet} from 'react-native';
-import { accountStore } from '../../features';
-import { useAppSelector } from '../../redux/hooks';
+import React, {useEffect} from 'react';
+import {StyleSheet, View} from 'react-native';
+import Loading from '../../component/loading/loading';
+import ModalPoup from '../../component/Modal/Modal';
+import {accountStore, loadingGlobalStore} from '../../features';
+import {ScreenHeight, useAppSelector} from '../../redux/hooks';
 import AppStackScreen from '../AppStack/AppStackScreen';
 import AuthStackScreen from '../Auth/AuthStackScreen';
 
 function RootStackScreen() {
   const resultAccount = useAppSelector(accountStore);
-  return resultAccount.token != '' ? (
-    <AppStackScreen />
-  ) : (
-    <AuthStackScreen />
+  const LoadingGl = useAppSelector(loadingGlobalStore);
+  console.log('LoadingGl', LoadingGl);
+
+  return (
+    <View style={styles.container}>
+      {resultAccount.token != '' ? <AppStackScreen /> : <AuthStackScreen />}
+      <ModalPoup visible={LoadingGl.status}>
+        <Loading />
+      </ModalPoup>
+    </View>
   );
 }
-
 export default RootStackScreen;
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    // backgroundColor: '#fff',
-    // width: '100%',
+    flex: 1,
+    backgroundColor: '#fff',
+    width: '100%',
+    height: ScreenHeight,
   },
 });
