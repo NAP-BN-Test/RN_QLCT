@@ -14,7 +14,7 @@ const accountAPI = {
 
     postCheckToken(): Promise<any> {
         const url = "checktoken";
-        return axiosClient.post(url);
+        return axiosClient.get(url);
     },
 
     postChangePassWord(data: ChangePassword): Promise<any> {

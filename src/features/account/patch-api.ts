@@ -24,6 +24,8 @@ export const postLogout = createAsyncThunk('/account/logout', () => {
 
 export const checkToken = createAsyncThunk('/account/checktoken', async () => {
   const response = await accountAPI.postCheckToken();
+  console.log('check', response);
+  
   return response.result;
 });
 
