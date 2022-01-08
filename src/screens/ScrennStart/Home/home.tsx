@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -8,17 +8,28 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {ScreenHeight} from '../../../redux/hooks';
+import {currency, ScreenHeight, useAppDispatch} from '../../../redux/hooks';
 import colors from '../../../assets/css/color';
 import RNSRadioGroup from '../../../component/radiogroup/radiogroupCpn';
 import fonts from '../../../assets/font/fonts';
+import {getSpendingByDay} from '../../../features/spending';
+import {useSelector} from 'react-redux';
+import {spendingStore} from '../../../features';
 function Home() {
+  const dispatch = useAppDispatch();
   const [indexSelect, setIndexSelect] = useState(0);
+
+  const SpendingBD = useSelector(spendingStore);
+  console.log('SpendingBD', SpendingBD);
+
+  useEffect(() => {
+    dispatch(getSpendingByDay());
+  }, []);
 
   const renderRow = ({item}: any) => (
     <TouchableOpacity
       activeOpacity={0.6}
-      key={Math.floor(Math.random() * 11000)}
+      key={item.id}
       style={styles.itemContainer}
       onPress={() => {}}>
       <View style={styles.itemSubContainer}>
@@ -33,20 +44,18 @@ function Home() {
           </View>
           <View style={styles.itemMetaContainer}>
             {item.id && (
-              <View
-                style={[
-                  styles.badge,
-                  item.badge === 'NEW' && {backgroundColor: colors.green},
-                ]}>
+              <View style={[styles.badge, {backgroundColor: colors.green}]}>
                 <Text
                   style={{fontSize: 10, color: colors.white}}
                   //   styleName="bright"
                 >
-                  Mới
+                  18:20
                 </Text>
               </View>
             )}
-            <Text style={styles.itemPrice}>9,000,000</Text>
+            <Text style={styles.itemPrice}>
+              {/* {currency(2000000)} */} 200000000
+            </Text>
           </View>
         </View>
       </View>
@@ -59,22 +68,20 @@ function Home() {
         <RNSRadioGroup
           underline
           //   style={styles.demoItem}
-          items={['One', 'Two', 'Three', 'Four']}
+          items={['Hôm nay', 'Tuần', 'Tháng', 'Khoảng ngày']}
           selectedIndex={indexSelect}
           onChange={(index: any) => setIndexSelect(index)}
         />
       </View>
 
-      <ScrollView
-        style={styles.ScrollView_container}
-        contentContainerStyle={{paddingBottom: 20}}>
+      <View style={styles.ScrollView_container}>
         <FlatList
           keyExtractor={(item, idx) => idx.toString()}
           style={{backgroundColor: colors.white, paddingHorizontal: 15}}
-          data={[{id: 1}, {id: 1}, {id: 1}, {id: 1}, {id: 1}, {id: 1}, {id: 1}]}
+          data={[{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}]}
           renderItem={renderRow}
         />
-      </ScrollView>
+      </View>
     </View>
   );
 }
