@@ -17,7 +17,7 @@ export const getSpendingByWeek = createAsyncThunk(
     const response = await spendingAPI.getSpendingByWeek();
     console.log('ByWeek', response);
 
-    return response.result;
+    return response;
   },
 );
 
@@ -27,7 +27,7 @@ export const getSpendingByMonth = createAsyncThunk(
     const response = await spendingAPI.getSpendingByMonth();
     console.log('ByMonth', response);
 
-    return response.result;
+    return response;
   },
 );
 
@@ -37,16 +37,16 @@ export const getSpendingByDateToDate = createAsyncThunk(
     const response = await spendingAPI.getSpendingByDateToDate();
     console.log('DateToDate', response);
 
-    return response.result;
+    return response;
   },
 );
 
 export const postSpendingByID = createAsyncThunk(
   '/spending/ByID',
-  async (data: Array<{id: Number}>) => {
+  async (data: {id: Number}) => {
     const response = await spendingAPI.postSpendingByID(data);
     console.log('ID', response);
 
-    return response.result;
+    return response;
   },
 );

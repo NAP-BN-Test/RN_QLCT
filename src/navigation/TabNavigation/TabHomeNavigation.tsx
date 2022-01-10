@@ -15,6 +15,7 @@ import Error404 from '../../screens/Error404/Error404';
 import AllOption from '../../screens/ScrennStart/AllOption/allOption';
 import Home from '../../screens/ScrennStart/Home/home';
 import colors from '../../assets/css/color';
+import PageGrow from '../../screens/Error404/pageGrow';
 const Tab = createBottomTabNavigator();
 
 const CustomTabBarButton = ({children, onPress}: any) => (
@@ -123,7 +124,6 @@ const TabHomeNavigation = () => {
           ),
           // headerLeft: null,
           headerTitleStyle: {
-            // fontFamily: fonts.primaryRegular,
             color: colors.white,
             fontSize: 18,
           },
@@ -132,14 +132,19 @@ const TabHomeNavigation = () => {
       />
       <Tab.Screen
         name="Report"
-        component={Error404}
+        component={PageGrow}
         options={{
-          headerShown: false,
+          // headerShown: false,
+          headerTitleStyle: {
+            color: colors.white,
+            fontSize: 18,
+          },
+          title: 'Báo cáo',
         }}
       />
       {/* <Tab.Screen
         name="Add"
-        component={Error404}
+        component={PageGrow}
         options={{
           headerShown: false,
           tabBarButton: props => (
@@ -156,9 +161,14 @@ const TabHomeNavigation = () => {
 
       <Tab.Screen
         name="Plan"
-        component={Error404}
+        component={PageGrow}
         options={{
-          headerShown: false,
+          // headerShown: false,
+          headerTitleStyle: {
+            color: colors.white,
+            fontSize: 18,
+          },
+          title: 'Kế hoạch',
         }}
       />
 

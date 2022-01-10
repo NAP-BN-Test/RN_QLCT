@@ -33,7 +33,7 @@ const spendingAPI = {
     return axiosClient.get(url);
   },
 
-  postSpendingByID(data: Array<{id: Number}>): Promise<any> {
+  postSpendingByID(data: {id: Number}): Promise<any> {
     const url = 'expense/getchitieubyid';
     return axiosClient.post(url, data);
   },

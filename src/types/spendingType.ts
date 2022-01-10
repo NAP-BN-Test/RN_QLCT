@@ -1,5 +1,5 @@
 export interface CustomesSpending {
-  listspending: Array<any>;
+  listspending: Array<spendingType>;
   totalmoney: number;
   loading: boolean;
   error: boolean;
