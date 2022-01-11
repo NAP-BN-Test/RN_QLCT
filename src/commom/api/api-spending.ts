@@ -23,9 +23,9 @@ const spendingAPI = {
     return axiosClient.get(url);
   },
 
-  getSpendingByDateToDate(): Promise<any> {
+  getSpendingByDateToDate(data: {datestart: string,dateend: string}): Promise<any> {
     const url = 'expense/getchitieubydatetodate';
-    return axiosClient.get(url);
+    return axiosClient.post(url, data);
   },
 
   getSpendingAll(): Promise<any> {

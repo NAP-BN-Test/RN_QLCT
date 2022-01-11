@@ -33,8 +33,10 @@ export const getSpendingByMonth = createAsyncThunk(
 
 export const getSpendingByDateToDate = createAsyncThunk(
   '/spending/ByDateToDate',
-  async () => {
-    const response = await spendingAPI.getSpendingByDateToDate();
+  async (data: {datestart: string; dateend: string}) => {
+    console.log('data date and date truyền vào' ,data);
+    
+    const response = await spendingAPI.getSpendingByDateToDate(data);
     console.log('DateToDate', response);
 
     return response;

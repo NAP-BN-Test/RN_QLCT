@@ -1,34 +1,28 @@
-import React, {useEffect, useState} from 'react';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
 import {
-  FlatList,
-  Image,
-  ImageBackground,
-  ScrollView,
-  StyleSheet,
+  FlatList, StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
-import {
-  currency,
-  getParsedDateTime,
-  ScreenHeight,
-  useAppDispatch,
-} from '../../../redux/hooks';
+import { useSelector } from 'react-redux';
 import colors from '../../../assets/css/color';
-import RNSRadioGroup from '../../../component/radiogroup/radiogroupCpn';
+import stylesGlobal from '../../../assets/css/cssGlobal';
 import fonts from '../../../assets/font/fonts';
+import RangeDate from '../../../component/Date/rangeDate';
+import Loading from '../../../component/loading/loading';
+import RNSRadioGroup from '../../../component/radiogroup/radiogroupCpn';
+import { spendingStore } from '../../../features';
 import {
+  getSpendingByDateToDate,
   getSpendingByDay,
   getSpendingByMonth,
-  getSpendingByWeek,
-  postSpendingByID,
+  getSpendingByWeek
 } from '../../../features/spending';
-import {useSelector} from 'react-redux';
-import {spendingStore} from '../../../features';
-import {spendingType} from '../../../types/spendingType';
-import Loading from '../../../component/loading/loading';
-import stylesGlobal from '../../../assets/css/cssGlobal';
+import {
+  getParsedDateTime, useAppDispatch
+} from '../../../redux/hooks';
 function Home() {
   const dispatch = useAppDispatch();
   const [indexSelect, setIndexSelect] = useState(0);
@@ -51,7 +45,7 @@ function Home() {
         break;
 
       case 3:
-        // dispatch(getSpendingByDay());
+        dispatch(getSpendingByDay());
         break;
 
       default:
@@ -114,6 +108,7 @@ function Home() {
         />
       </View>
 
+      {/* RangeDate */}
 
       {/* Render danh sách */}
 
@@ -124,6 +119,33 @@ function Home() {
         </View>
       ) : (
         <View style={styles.ScrollView_container}>
+          {indexSelect === 3 && (
+            <View style={{ marginBottom: 10}}>
+              <RangeDate
+                onConfirm={(e: any) => {
+                  console.log('onConfirm', e);
+                  console.log(
+                    'onConfirm startDate',
+                    moment(e.startDate).format('YYYY-MM-DD').toString(),
+                  );
+                  console.log(
+                    'onConfirm endDate',
+                    moment(e.endDate).format('YYYY-MM-DD').toString(),
+                  );
+                  dispatch(
+                    getSpendingByDateToDate({
+                      datestart: moment(e.startDate)
+                        .format('YYYY-MM-DD')
+                        .toString(),
+                      dateend: moment(e.endDate)
+                        .format('YYYY-MM-DD')
+                        .toString(),
+                    }),
+                  );
+                }}
+              />
+            </View>
+          )}
           <FlatList
             keyExtractor={(item, idx) => item.id.toString()}
             style={{backgroundColor: colors.white, paddingHorizontal: 15}}
