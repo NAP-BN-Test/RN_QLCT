@@ -1,6 +1,13 @@
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useSelector} from 'react-redux';
 import colors from '../../../assets/css/color';
 import stylesGlobal from '../../../assets/css/cssGlobal';
@@ -22,14 +29,44 @@ import {
   getParsedTime,
   useAppDispatch,
 } from '../../../redux/hooks';
+const wait = (timeout: any) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+};
 function Home({navigation, route}: any) {
   const dispatch = useAppDispatch();
   const [indexSelect, setIndexSelect] = useState(0);
-
+  const [refreshing, setRefreshing] = React.useState(false);
   const SpendingBD = useSelector(spendingStore);
   // console.log('SpendingBD', SpendingBD);
-  // console.log('route', route);
+  console.log('route', route);
+  console.log('navigation', navigation);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    switch (indexSelect) {
+      case 0:
+        dispatch(getSpendingByDay());
+        break;
 
+      case 1:
+        dispatch(getSpendingByWeek());
+        break;
+
+      case 2:
+        dispatch(getSpendingByMonth());
+        break;
+
+      case 3:
+        dispatch(getSpendingByDay());
+        break;
+
+      default:
+        break;
+    }
+    setRefreshing(false);
+    // wait(2000).then(() => {
+      
+    // });
+  }, []);
   useEffect(() => {
     switch (indexSelect) {
       case 0:
@@ -145,6 +182,11 @@ function Home({navigation, route}: any) {
             </View>
           )}
           <FlatList
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
             keyExtractor={(item, idx) => item.id.toString()}
             style={{backgroundColor: colors.white, paddingHorizontal: 15}}
             data={SpendingBD.listspending}
