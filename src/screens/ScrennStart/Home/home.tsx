@@ -51,7 +51,7 @@ function Home({navigation, route}: any) {
       default:
         break;
     }
-  }, [indexSelect, route]);
+  }, [indexSelect, navigation]);
 
   const renderRow = ({item}: any) => (
     <TouchableOpacity

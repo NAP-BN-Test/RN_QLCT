@@ -15,6 +15,7 @@ import {
   postSpendingByID,
 } from '../../../features/spending';
 import {spendingStore} from '../../../features';
+import NotifiToast from '../../../component/notifiToast/toast';
 const EditSpending = ({navigation: {goBack}}: any) => {
   const SpendingBD = useAppSelector(spendingStore);
   const [namect, setnamect] = useState(() => SpendingBD.listspending[0].namect);
@@ -28,14 +29,18 @@ const EditSpending = ({navigation: {goBack}}: any) => {
   }
 
   function handleSubmit() {
-    dispatch(
-      postEditSpending({
-        id: SpendingBD.listspending[0].id,
-        timect: new Date(),
-        namect: namect,
-        moneyct: Number(moneyct),
-      }),
-    );
+    if ((moneyct || namect) == '') {
+      NotifiToast('Vui lòng điền đầy đủ thông tin');
+    } else {
+      dispatch(
+        postEditSpending({
+          id: SpendingBD.listspending[0].id,
+          timect: new Date(),
+          namect: namect,
+          moneyct: Number(moneyct),
+        }),
+      );
+    }
 
     console.log({
       id: SpendingBD.listspending[0].id,

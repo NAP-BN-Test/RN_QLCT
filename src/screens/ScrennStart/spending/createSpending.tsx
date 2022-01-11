@@ -1,25 +1,27 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Text, View} from 'react-native';
-import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
-import {StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import IconEntypo from 'react-native-vector-icons/Entypo';
-import {useAppDispatch} from '../../../redux/hooks';
-import {postCreateSpending} from '../../../features/spending';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import NotifiToast from '../../../component/notifiToast/toast';
+import { postCreateSpending } from '../../../features/spending';
+import { useAppDispatch } from '../../../redux/hooks';
 const CreateSpending = ({navigation}: any) => {
   const [namect, setnamect] = useState('');
   const [moneyct, setMoneyct] = useState('');
   const dispatch = useAppDispatch();
   function handleSubmit() {
-    dispatch(
-      postCreateSpending([
-        {
-          timect: new Date(),
-          namect: namect,
-          moneyct: Number(moneyct),
-        },
-      ]),
-    );
+    if ((moneyct || namect) == '') {
+      NotifiToast('Vui lòng điền đầy đủ thông tin');
+    } else {
+      dispatch(
+        postCreateSpending([
+          {
+            timect: new Date(),
+            namect: namect,
+            moneyct: Number(moneyct),
+          },
+        ]),
+      );
+    }
   }
 
   return (
