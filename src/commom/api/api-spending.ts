@@ -5,6 +5,7 @@ import {
   LoginType,
   RegisterType,
 } from '../../types';
+import { CreateSpending, EditSpending } from '../../types/spendingType';
 import axiosClient from './axios-client';
 
 const spendingAPI = {
@@ -35,6 +36,27 @@ const spendingAPI = {
 
   postSpendingByID(data: {id: Number}): Promise<any> {
     const url = 'expense/getchitieubyid';
+    return axiosClient.post(url, data);
+  },
+
+  postDeleteSpending(data: {id: Array<number>}): Promise<any> {
+    console.log('data truyền vào', data);
+    
+    const url = 'expense/deletechitieu';
+    return axiosClient.post(url, data);
+  },
+
+  postCreatSpending(data: Array<CreateSpending>): Promise<any> {
+    console.log('data truyền vào', data);
+    
+    const url = 'expense/createchitieu';
+    return axiosClient.post(url, data);
+  },
+
+  postEditSpending(data: EditSpending): Promise<any> {
+    console.log('data truyền vào', data);
+    
+    const url = 'expense/editchitieu';
     return axiosClient.post(url, data);
   },
 };

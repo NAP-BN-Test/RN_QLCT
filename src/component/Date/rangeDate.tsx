@@ -57,7 +57,7 @@ function RangeDate(props: propsRangeDate) {
         }
       />
       <DatePickerModal
-        // locale="en"
+        locale="en"
         mode="range"
         visible={open}
         onDismiss={onDismiss}

@@ -16,7 +16,7 @@ export interface spendingType {
 }
 
 export interface CreateSpending {
-  timect: string;
+  timect: Date;
   namect: string;
   moneyct: number;
 }

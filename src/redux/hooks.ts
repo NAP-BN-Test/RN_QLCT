@@ -72,3 +72,61 @@ export function getParsedDateTime(strDate: any) {
   date = dd + '-' + mm + '-' + yyyy + ' ' + hours + ':' + min;
   return date.toString();
 }
+
+//Format date + Time
+export function getParsedDateTimeSS(strDate: any) {
+  var strSplitDate = String(strDate).split(' ');
+  var date = new Date(strSplitDate[0]) as any;
+  var hours = date.getUTCHours() as any;
+  var min = date.getUTCMinutes() as any;
+  var seconds = date.getSeconds() as any;
+  console.log(date);
+  var dd = date.getDate() as any;
+  var mm = (date.getMonth() + 1) as any; //January is 0!
+
+  var yyyy = date.getFullYear();
+  if (dd < 10) {
+    dd = '0' + dd;
+  }
+  if (mm < 10) {
+    mm = '0' + mm;
+  }
+
+  if (hours < 10) {
+    hours = '0' + hours;
+  }
+
+  if (min < 10) {
+    min = '0' + min;
+  }
+
+  if (seconds < 10) {
+    seconds = '0' + seconds;
+  }
+  date = dd + '-' + mm + '-' + yyyy + ' ' + hours + ':' + min + ':' + seconds;
+  return date.toString();
+}
+
+//Format Time
+export function getParsedTime(time: any) {
+  var strSplitTime = String(time).split(' ');
+  var date = new Date(strSplitTime[0]) as any;
+  var hours = date.getUTCHours() as any;
+  var min = date.getUTCMinutes() as any;
+  var seconds = date.getSeconds() as any;
+
+  if (hours < 10) {
+    hours = '0' + hours;
+  }
+
+  if (min < 10) {
+    min = '0' + min;
+  }
+
+  if (seconds < 10) {
+    seconds = '0' + seconds;
+  }
+  date = hours + ':' + min;
+
+  return date.toString();
+}

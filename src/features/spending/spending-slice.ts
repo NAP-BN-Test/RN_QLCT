@@ -4,8 +4,12 @@ import {
   getSpendingByDay,
   getSpendingByMonth,
   getSpendingByWeek,
+  postCreateSpending,
+  postDeleteSpending,
+  postEditSpending,
   postSpendingByID,
 } from '.';
+import NotifiToast from '../../component/notifiToast/toast';
 import {CustomesSpending, spendingType} from '../../types/spendingType';
 
 const initialStateSpending: CustomesSpending = {
@@ -26,8 +30,6 @@ const spendingSlice = createSlice({
         state.loading = true;
       })
       .addCase(getSpendingByDay.fulfilled, (state, action) => {
-        console.log('action', action);
-
         const {result, totalmoney} = action.payload;
         state.listspending = result;
         state.totalmoney = totalmoney;
@@ -45,8 +47,6 @@ const spendingSlice = createSlice({
         state.loading = true;
       })
       .addCase(getSpendingByWeek.fulfilled, (state, action) => {
-        console.log('action', action);
-
         const {result, totalmoney} = action.payload;
         state.listspending = result;
         state.totalmoney = totalmoney;
@@ -65,8 +65,6 @@ const spendingSlice = createSlice({
         state.loading = true;
       })
       .addCase(getSpendingByMonth.fulfilled, (state, action) => {
-        console.log('action', action);
-
         const {result, totalmoney} = action.payload;
         state.listspending = result;
         state.totalmoney = totalmoney;
@@ -85,8 +83,6 @@ const spendingSlice = createSlice({
         state.loading = true;
       })
       .addCase(getSpendingByDateToDate.fulfilled, (state, action) => {
-        console.log('action', action);
-
         const {result, totalmoney} = action.payload;
         state.listspending = result;
         state.totalmoney = totalmoney;
@@ -116,6 +112,81 @@ const spendingSlice = createSlice({
       .addCase(postSpendingByID.rejected, state => {
         state.loading = false;
         console.log('Lấy dữ liệu không thành công');
+      });
+
+    //Delete
+    builder
+      .addCase(postDeleteSpending.pending, state => {
+        state.loading = true;
+      })
+      .addCase(postDeleteSpending.fulfilled, (state, action) => {
+        console.log('action delete', action);
+        NotifiToast('Xóa thành công');
+        // const {result, totalmoney} = action.payload;
+        // state.listspending = [result];
+        // state.totalmoney = totalmoney;
+        state.loading = false;
+        state.error = false;
+      })
+      .addCase(postDeleteSpending.rejected, state => {
+        state.loading = false;
+        NotifiToast('Xóa thất bại');
+        console.log('Xóa không thành công');
+      });
+
+    //Edit
+    builder
+      .addCase(postEditSpending.pending, state => {
+        state.loading = true;
+      })
+      .addCase(postEditSpending.fulfilled, (state, action) => {
+        console.log('action delete', action);
+        NotifiToast('Sửa thành công');
+        const {result, overtargetDay, overtargetWeek, overtargetMonth} =
+          action.payload;
+
+        if (overtargetDay == true) {
+          NotifiToast('Bạn đã tiêu quá nhiều tiền trong ngày hôm nay');
+        }
+
+        if (overtargetWeek == true) {
+          NotifiToast('Bạn đã tiêu quá nhiều tiền trong tuần này');
+        }
+
+        if (overtargetMonth == true) {
+          NotifiToast('Bạn đã tiêu quá nhiều tiền trong tháng này');
+        }
+
+        // state.listspending = state.listspending
+        //   .filter((item: spendingType) => item.id != result.id)
+        //   .push(result);
+
+        state.loading = false;
+        state.error = false;
+      })
+      .addCase(postEditSpending.rejected, state => {
+        state.loading = false;
+        NotifiToast('Sửa thất bại');
+        console.log('Xóa không thành công');
+      });
+
+    //Create
+    builder
+      .addCase(postCreateSpending.pending, state => {
+        state.loading = true;
+      })
+      .addCase(postCreateSpending.fulfilled, (state, action) => {
+        console.log('action delete', action);
+        NotifiToast('Thêm thành công');
+        // const {result, totalmoney} = action.payload;
+        // state.listspending = [result];
+        // state.totalmoney = totalmoney;
+        state.loading = false;
+        state.error = false;
+      })
+      .addCase(postCreateSpending.rejected, state => {
+        state.loading = false;
+        NotifiToast('Thêm thất bại');
       });
   },
 });

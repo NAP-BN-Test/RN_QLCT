@@ -36,7 +36,7 @@ const CustomTabBarButton = ({children, onPress}: any) => (
   </TouchableOpacity>
 );
 
-const TabHomeNavigation = () => {
+const TabHomeNavigation = ({navigation}: any) => {
   const headerBackground = require('../../assets/img/topBarBg.png');
   // const dispatch = useAppDispatch();
   // const resultAccount = useAppSelector(accountStore);
@@ -115,12 +115,18 @@ const TabHomeNavigation = () => {
         options={{
           title: 'Home',
           headerRight: () => (
-            <MaterialIcons
-              name={'search'}
-              size={28}
-              color={colors.white}
-              style={{marginRight: 10}}
-            />
+            <TouchableOpacity activeOpacity={0.6}
+            onPress={()=>{
+              navigation.navigate('createspending')
+            }}
+            >
+              <MaterialIcons
+                name={'control-point'}
+                size={28}
+                color={colors.white}
+                style={{marginRight: 10}}
+              />
+            </TouchableOpacity>
           ),
           // headerLeft: null,
           headerTitleStyle: {

@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {retriveData, token} from '../../../commom/api';
 import Loading from '../../../component/loading/loading';
 import ModalPoup from '../../../component/Modal/Modal';
+import NotifiToast from '../../../component/notifiToast/toast';
 import Notify from '../../../component/Notify/Notify';
 import {accountStore} from '../../../features';
 import {checkToken, postLogin} from '../../../features/account';
@@ -54,7 +55,12 @@ const Login = ({navigation}: any) => {
 
   // dispatch api
   const handlePostLogin = (data: LoginType) => {
-    dispatch(postLogin(data));
+    if (data.username == '' || data.username == '') {
+      NotifiToast("Vui lòng điền tài khoản mật khẩu")
+    }else{
+      dispatch(postLogin(data));
+    }
+    
   };
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -151,7 +157,7 @@ const Login = ({navigation}: any) => {
         <Text style={styles.textDemo}>Don't have an account?</Text>
         <TouchableOpacity
           style={styles.buttonFooter}
-          onPress={() => navigation.navigate('register')}>
+          onPress={() => navigation.navigate('createspending')}>
           <Text style={styles.buttonTitleFooter}>Register</Text>
         </TouchableOpacity>
       </View>

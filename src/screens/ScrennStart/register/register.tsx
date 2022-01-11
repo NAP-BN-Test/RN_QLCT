@@ -4,6 +4,7 @@ import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ModalPoup from '../../../component/Modal/Modal';
+import NotifiToast from '../../../component/notifiToast/toast';
 import Notify from '../../../component/Notify/Notify';
 import {postRegister} from '../../../features/account';
 import {useAppDispatch} from '../../../redux/hooks';
@@ -21,10 +22,10 @@ const Register = ({navigation}: any) => {
   // dispatch api
   const handlePostRegister = (data: RegisterType) => {
     if (data.password != repassword) {
-      console.log('Mật khẩu không khớp');
+      NotifiToast("Mật khẩu không khớp")
     } else {
       if ((userName.length || password.length || email.length) <= 0) {
-        console.log('Vui lòng nhập đầy đủ thông tin');
+        NotifiToast("Vui lòng điền đầy đủ thông tin")
       } else {
         dispatch(postRegister(data));
       }

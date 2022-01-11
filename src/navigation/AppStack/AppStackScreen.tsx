@@ -12,6 +12,8 @@ import Hearder from '../../component/header/header';
 import InfoUser from '../../screens/ScrennStart/user/infoUser/infoUser';
 import EditUse from '../../screens/ScrennStart/user/editUser/EditUse';
 import ChangePassword from '../../screens/ScrennStart/user/changePassword/changePassword';
+import EditSpending from '../../screens/ScrennStart/spending/editSpending';
+import CreateSpending from '../../screens/ScrennStart/spending/createSpending';
 const AppStack = createStackNavigator();
 
 const AppStackScreen = ({navigation}: any) => {
@@ -55,6 +57,24 @@ const AppStackScreen = ({navigation}: any) => {
         }}
         name="changepassword"
         component={ChangePassword}
+      />
+
+      <AppStack.Screen
+        options={{
+          title: 'Thêm mới',
+          // headerShown: false,
+        }}
+        name="createspending"
+        component={CreateSpending}
+      />
+
+      <AppStack.Screen
+        options={{
+          title: 'Sửa chi tiêu',
+          // headerShown: false,
+        }}
+        name="editsending"
+        component={EditSpending}
       />
     </AppStack.Navigator>
   );

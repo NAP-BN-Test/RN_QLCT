@@ -1,34 +1,34 @@
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
-import {
-  FlatList, StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
-import { useSelector } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import colors from '../../../assets/css/color';
 import stylesGlobal from '../../../assets/css/cssGlobal';
 import fonts from '../../../assets/font/fonts';
 import RangeDate from '../../../component/Date/rangeDate';
 import Loading from '../../../component/loading/loading';
 import RNSRadioGroup from '../../../component/radiogroup/radiogroupCpn';
-import { spendingStore } from '../../../features';
+import {spendingStore} from '../../../features';
 import {
   getSpendingByDateToDate,
   getSpendingByDay,
   getSpendingByMonth,
-  getSpendingByWeek
+  getSpendingByWeek,
+  postSpendingByID,
 } from '../../../features/spending';
 import {
-  getParsedDateTime, useAppDispatch
+  getParsedDate,
+  getParsedDateTime,
+  getParsedTime,
+  useAppDispatch,
 } from '../../../redux/hooks';
-function Home() {
+function Home({navigation, route}: any) {
   const dispatch = useAppDispatch();
   const [indexSelect, setIndexSelect] = useState(0);
 
   const SpendingBD = useSelector(spendingStore);
-  console.log('SpendingBD', SpendingBD);
+  // console.log('SpendingBD', SpendingBD);
+  // console.log('route', route);
 
   useEffect(() => {
     switch (indexSelect) {
@@ -51,7 +51,7 @@ function Home() {
       default:
         break;
     }
-  }, [indexSelect]);
+  }, [indexSelect, route]);
 
   const renderRow = ({item}: any) => (
     <TouchableOpacity
@@ -59,7 +59,8 @@ function Home() {
       key={item.id}
       style={styles.itemContainer}
       onPress={() => {
-        // dispatch(postSpendingByID(item.id));
+        dispatch(postSpendingByID({id: item.id}));
+        navigation.navigate('editsending');
       }}>
       <View style={styles.itemSubContainer}>
         {/* <Image source={{uri: item.image}} style={styles.itemImage} /> */}
@@ -68,7 +69,7 @@ function Home() {
           <View>
             {/* <Text style={styles.itemTitle}>Ghi chú:</Text> */}
             <Text style={styles.itemSubtitle} numberOfLines={1}>
-              Ghi chú: Không có ghi chú
+              Không có ghi chú
             </Text>
           </View>
           <View style={styles.itemMetaContainer}>
@@ -78,7 +79,12 @@ function Home() {
                   style={{fontSize: 10, color: colors.white}}
                   //   styleName="bright"
                 >
-                  {getParsedDateTime(item.timect)}
+                  {getParsedDate(item.timect) ===
+                  getParsedDate(new Date().toLocaleDateString('en-US'))
+                    ? indexSelect === 0
+                      ? getParsedTime(item.timect)
+                      : 'Hôm nay ' + getParsedTime(item.timect)
+                    : getParsedDateTime(item.timect)}
                 </Text>
               </View>
             )}
@@ -120,18 +126,10 @@ function Home() {
       ) : (
         <View style={styles.ScrollView_container}>
           {indexSelect === 3 && (
-            <View style={{ marginBottom: 10}}>
+            <View style={{marginBottom: 10}}>
               <RangeDate
                 onConfirm={(e: any) => {
                   console.log('onConfirm', e);
-                  console.log(
-                    'onConfirm startDate',
-                    moment(e.startDate).format('YYYY-MM-DD').toString(),
-                  );
-                  console.log(
-                    'onConfirm endDate',
-                    moment(e.endDate).format('YYYY-MM-DD').toString(),
-                  );
                   dispatch(
                     getSpendingByDateToDate({
                       datestart: moment(e.startDate)
