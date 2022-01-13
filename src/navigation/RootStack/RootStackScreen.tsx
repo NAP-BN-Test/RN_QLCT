@@ -11,6 +11,7 @@ function RootStackScreen() {
   const resultAccount = useAppSelector(accountStore);
   const LoadingGl = useAppSelector(loadingGlobalStore);
   console.log('LoadingGl', LoadingGl);
+  console.log('resultAccount', resultAccount);
 
   return (
     <View style={styles.container}>

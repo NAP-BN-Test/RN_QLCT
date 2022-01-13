@@ -6,13 +6,12 @@ import {REACT_APP_API_URL} from './apiKey';
 export const retriveData = async () => {
   let value: string = (await AsyncStorage.getItem('token')) || '';
   console.log('value token', value);
-  
+
   return value;
   // return JSON.parse(value);
-
 };
 
-export var token: any = retriveData();
+export var token: any = AsyncStorage.getItem('token');
 
 const axiosClient = axios.create({
   baseURL: REACT_APP_API_URL,

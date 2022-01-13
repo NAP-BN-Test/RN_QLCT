@@ -15,6 +15,9 @@ const ModalPoup = ({visible, children}: any) => {
   const scaleValue = React.useRef(new Animated.Value(0)).current;
   React.useEffect(() => {
     toggleModal();
+    return () => {
+      
+    }
   }, [visible]);
   const toggleModal = () => {
     if (visible) {
@@ -22,6 +25,7 @@ const ModalPoup = ({visible, children}: any) => {
       Animated.spring(scaleValue, {
         toValue: 1,
         // duration: 300,
+        bounciness: 3,
         useNativeDriver: true,
       }).start();
     } else {

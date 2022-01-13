@@ -7,6 +7,7 @@ import queryString from 'query-string';
 import {isLoadingGL, open} from '../loadingGlobal';
 import {useAppDispatch} from '../../redux/hooks';
 import {token} from '../../commom/api';
+import NotifiToast from '../../component/notifiToast/toast';
 const initialStateAccount: CustomesAccount = {
   listuser: {} as Account,
   loading: false,
@@ -41,6 +42,7 @@ const accountSlice = createSlice({
         state.loading = false;
         state.error = true; //Show lỗi
         console.log('Đăng nhập không thành công');
+        NotifiToast("Đăng nhập không thành công")
       });
     //  log out the user
     builder.addCase(postLogout.fulfilled, state => {
@@ -48,6 +50,7 @@ const accountSlice = createSlice({
       state.token = '';
       AsyncStorage.removeItem('token');
       // AsyncStorage.removeItem("user");
+      NotifiToast("Đã đăng xuất")
       console.log('Đã đăng xuất');
     });
     // register
@@ -60,10 +63,12 @@ const accountSlice = createSlice({
         state.listuser = listuser;
         state.loading = false;
         console.log('Đăng ký thành công');
+        NotifiToast("Đăng ký thành công")
       })
       .addCase(postRegister.rejected, state => {
         state.loading = false;
         console.log('Đăng ký không thành công');
+        NotifiToast("Đăng ký không thành công")
       });
 
     //Check token
