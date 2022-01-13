@@ -22,10 +22,10 @@ const Register = ({navigation}: any) => {
   // dispatch api
   const handlePostRegister = (data: RegisterType) => {
     if (data.password != repassword) {
-      NotifiToast("Mật khẩu không khớp")
+      NotifiToast('Mật khẩu không khớp');
     } else {
-      if ((userName.length || password.length || email.length) <= 0) {
-        NotifiToast("Vui lòng điền đầy đủ thông tin")
+      if (userName.length <= 0 || password.length <= 0 || email.length <= 0) {
+        NotifiToast('Vui lòng điền đầy đủ thông tin');
       } else {
         dispatch(postRegister(data));
       }
