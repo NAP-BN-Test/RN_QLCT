@@ -1,12 +1,16 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
+import ModalPoup from '../../../component/Modal/Modal';
 import NotifiToast from '../../../component/notifiToast/toast';
+import Notify from '../../../component/Notify/Notify';
 import {postCreateSpending} from '../../../features/spending';
 import {useAppDispatch} from '../../../redux/hooks';
 const CreateSpending = ({navigation}: any) => {
   const [namect, setnamect] = useState('');
   const [moneyct, setMoneyct] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [content, setContent] = useState('');
   const dispatch = useAppDispatch();
   function handleSubmit() {
     if ((moneyct || namect) == '') {
@@ -21,7 +25,79 @@ const CreateSpending = ({navigation}: any) => {
           },
         ]),
       ).then(res => {
-        console.log(res);
+        if (
+          res.payload.overtargetWeek === true ||
+          res.payload.overtargetDay === true ||
+          res.payload.overtargetMonth === true
+        ) {
+          if (
+            res.payload.overtargetWeek === true &&
+            res.payload.overtargetDay === true &&
+            res.payload.overtargetMonth === true
+          ) {
+            setContent(
+              'Cảnh báo: Đã vượt quá giới hạn Target Ngày, Tuần và Tháng',
+            );
+          }
+
+          if (
+            res.payload.overtargetWeek === false &&
+            res.payload.overtargetDay === true &&
+            res.payload.overtargetMonth === false
+          ) {
+            setContent('Cảnh báo: Đã vượt quá giới hạn Target Ngày');
+          }
+
+          if (
+            res.payload.overtargetWeek === true &&
+            res.payload.overtargetDay === false &&
+            res.payload.overtargetMonth === false
+          ) {
+            setContent('Cảnh báo: Đã vượt quá giới hạn Target Tuần');
+          }
+
+          if (
+            res.payload.overtargetWeek === false &&
+            res.payload.overtargetDay === false &&
+            res.payload.overtargetMonth === true
+          ) {
+            setContent('Cảnh báo: Đã vượt quá giới hạn Target Tháng');
+          }
+
+          if (
+            res.payload.overtargetWeek === false &&
+            res.payload.overtargetDay === false &&
+            res.payload.overtargetMonth === true
+          ) {
+            setContent('Cảnh báo: Đã vượt quá giới hạn Target Tháng');
+          }
+
+          if (
+            res.payload.overtargetWeek === false &&
+            res.payload.overtargetDay === true &&
+            res.payload.overtargetMonth === true
+          ) {
+            setContent('Cảnh báo: Đã vượt quá giới hạn Target Ngày và Tháng');
+          }
+
+          if (
+            res.payload.overtargetWeek === true &&
+            res.payload.overtargetDay === true &&
+            res.payload.overtargetMonth === false
+          ) {
+            setContent('Cảnh báo: Đã vượt quá giới hạn Target Ngày và Tuần');
+          }
+
+          if (
+            res.payload.overtargetWeek === true &&
+            res.payload.overtargetDay === false &&
+            res.payload.overtargetMonth === true
+          ) {
+            setContent('Cảnh báo: Đã vượt quá giới hạn Target Tuần và Tháng');
+          }
+
+          setVisible(true);
+        }
       });
     }
   }
@@ -65,6 +141,14 @@ const CreateSpending = ({navigation}: any) => {
         <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
           <Text style={styles.buttonTitle}>Thêm</Text>
         </TouchableOpacity>
+
+        <ModalPoup visible={visible}>
+          <Notify
+            onPress={() => setVisible(false)}
+            content={content}
+            type="warning"
+          />
+        </ModalPoup>
       </View>
     </View>
   );

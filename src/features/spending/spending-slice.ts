@@ -145,17 +145,17 @@ const spendingSlice = createSlice({
         const {result, overtargetDay, overtargetWeek, overtargetMonth} =
           action.payload;
 
-        if (overtargetDay == true) {
-          NotifiToast('Bạn đã tiêu quá nhiều tiền trong ngày hôm nay');
-        }
+        // if (overtargetDay == true) {
+        //   NotifiToast('Bạn đã tiêu quá nhiều tiền trong ngày hôm nay');
+        // }
 
-        if (overtargetWeek == true) {
-          NotifiToast('Bạn đã tiêu quá nhiều tiền trong tuần này');
-        }
+        // if (overtargetWeek == true) {
+        //   NotifiToast('Bạn đã tiêu quá nhiều tiền trong tuần này');
+        // }
 
-        if (overtargetMonth == true) {
-          NotifiToast('Bạn đã tiêu quá nhiều tiền trong tháng này');
-        }
+        // if (overtargetMonth == true) {
+        //   NotifiToast('Bạn đã tiêu quá nhiều tiền trong tháng này');
+        // }
 
         // state.listspending = state.listspending
         //   .filter((item: spendingType) => item.id != result.id)

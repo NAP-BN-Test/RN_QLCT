@@ -1,10 +1,3 @@
-import {
-  AccountResponseLogin,
-  AccountResponseRegister,
-  ChangePassword,
-  LoginType,
-  RegisterType,
-} from '../../types';
 import { CreateSpending, EditSpending } from '../../types/spendingType';
 import axiosClient from './axios-client';
 
@@ -41,7 +34,6 @@ const spendingAPI = {
 
   postDeleteSpending(data: {id: Array<number>}): Promise<any> {
     console.log('data truyền vào', data);
-    
     const url = 'expense/deletechitieu';
     return axiosClient.post(url, data);
   },

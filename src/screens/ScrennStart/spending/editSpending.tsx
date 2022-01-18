@@ -16,12 +16,16 @@ import {
 } from '../../../features/spending';
 import {spendingStore} from '../../../features';
 import NotifiToast from '../../../component/notifiToast/toast';
+import ModalPoup from '../../../component/Modal/Modal';
+import Notify from '../../../component/Notify/Notify';
 const EditSpending = ({navigation: {goBack}}: any) => {
   const SpendingBD = useAppSelector(spendingStore);
   const [namect, setnamect] = useState(() => SpendingBD.listspending[0].namect);
   const [moneyct, setMoneyct] = useState(() =>
     SpendingBD.listspending[0].moneyct.toString(),
   );
+  const [visible, setVisible] = useState(false);
+  const [content, setContent] = useState('');
   const dispatch = useAppDispatch();
   function handleDelete() {
     dispatch(postDeleteSpending({id: [SpendingBD.listspending[0].id]}));
@@ -39,7 +43,82 @@ const EditSpending = ({navigation: {goBack}}: any) => {
           namect: namect,
           moneyct: Number(moneyct),
         }),
-      );
+      ).then(res => {
+        console.log('res sửa', res.payload);
+        if (
+          res.payload.overtargetWeek === true ||
+          res.payload.overtargetDay === true ||
+          res.payload.overtargetMonth === true
+        ) {
+          if (
+            res.payload.overtargetWeek === true &&
+            res.payload.overtargetDay === true &&
+            res.payload.overtargetMonth === true
+          ) {
+            setContent(
+              'Cảnh báo: Đã vượt quá giới hạn Target Ngày, Tuần và Tháng',
+            );
+          }
+
+          if (
+            res.payload.overtargetWeek === false &&
+            res.payload.overtargetDay === true &&
+            res.payload.overtargetMonth === false
+          ) {
+            setContent('Cảnh báo: Đã vượt quá giới hạn Target Ngày');
+          }
+
+          if (
+            res.payload.overtargetWeek === true &&
+            res.payload.overtargetDay === false &&
+            res.payload.overtargetMonth === false
+          ) {
+            setContent('Cảnh báo: Đã vượt quá giới hạn Target Tuần');
+          }
+
+          if (
+            res.payload.overtargetWeek === false &&
+            res.payload.overtargetDay === false &&
+            res.payload.overtargetMonth === true
+          ) {
+            setContent('Cảnh báo: Đã vượt quá giới hạn Target Tháng');
+          }
+
+          if (
+            res.payload.overtargetWeek === false &&
+            res.payload.overtargetDay === false &&
+            res.payload.overtargetMonth === true
+          ) {
+            setContent('Cảnh báo: Đã vượt quá giới hạn Target Tháng');
+          }
+
+          if (
+            res.payload.overtargetWeek === false &&
+            res.payload.overtargetDay === true &&
+            res.payload.overtargetMonth === true
+          ) {
+            setContent('Cảnh báo: Đã vượt quá giới hạn Target Ngày và Tháng');
+          }
+
+          if (
+            res.payload.overtargetWeek === true &&
+            res.payload.overtargetDay === true &&
+            res.payload.overtargetMonth === false
+          ) {
+            setContent('Cảnh báo: Đã vượt quá giới hạn Target Ngày và Tuần');
+          }
+
+          if (
+            res.payload.overtargetWeek === true &&
+            res.payload.overtargetDay === false &&
+            res.payload.overtargetMonth === true
+          ) {
+            setContent('Cảnh báo: Đã vượt quá giới hạn Target Tuần và Tháng');
+          }
+
+          setVisible(true);
+        }
+      });
     }
 
     console.log({
@@ -97,6 +176,14 @@ const EditSpending = ({navigation: {goBack}}: any) => {
           <Text style={styles.buttonTitle}>Xóa</Text>
         </TouchableOpacity>
       </View>
+
+      <ModalPoup visible={visible}>
+        <Notify
+          onPress={() => setVisible(false)}
+          content={content}
+          type="warning"
+        />
+      </ModalPoup>
     </View>
   );
 };

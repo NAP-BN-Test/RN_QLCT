@@ -57,7 +57,6 @@ axiosClient.interceptors.request.use(
   //   (config: AxiosRequestConfig) => {
   async(config: any) => {
     let value: any = (await AsyncStorage.getItem('token')) || '';
-    console.log("2222222222222", value);
     
     const accessToken: any = value;
     console.log(accessToken, accessToken);
