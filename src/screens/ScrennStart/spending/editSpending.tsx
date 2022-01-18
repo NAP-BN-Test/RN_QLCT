@@ -22,7 +22,7 @@ import NotifiToast from '../../../component/notifiToast/toast';
 import ModalPoup from '../../../component/Modal/Modal';
 import Notify from '../../../component/Notify/Notify';
 const EditSpending = ({navigation: {goBack}, ...props}: any) => {
-  console.log('params', props.route.params.key);
+  console.log('params', props.route.params.item);
 
   const SpendingBD = useAppSelector(spendingStore);
   const [namect, setnamect] = useState(() => SpendingBD.listspending[0].namect);
@@ -43,7 +43,7 @@ const EditSpending = ({navigation: {goBack}, ...props}: any) => {
     } else {
       dispatch(
         postEditSpending({
-          id: SpendingBD.listspending[0].id,
+          id: props.route.params.item.id,
           timect: new Date(),
           namect: namect,
           moneyct: Number(moneyct),
@@ -124,6 +124,8 @@ const EditSpending = ({navigation: {goBack}, ...props}: any) => {
           setVisible(true);
         }
       });
+
+
       switch (props.route.params.key) {
         case 0:
           dispatch(getSpendingByDay());
@@ -155,9 +157,9 @@ const EditSpending = ({navigation: {goBack}, ...props}: any) => {
     });
   }
   useEffect(() => {
-    setnamect(SpendingBD.listspending[0].namect);
-    setMoneyct(SpendingBD.listspending[0].moneyct.toString());
-  }, [SpendingBD]);
+    setnamect(props.route.params.item.namect);
+    setMoneyct(props.route.params.item.moneyct.toString());
+  }, [props.route.params.item.id]);
   return (
     <View style={[styles.container, {padding: 20}]}>
       <View>
