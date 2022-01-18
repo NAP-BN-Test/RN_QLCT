@@ -10,6 +10,9 @@ import {
   useAppSelector,
 } from '../../../redux/hooks';
 import {
+  getSpendingByDay,
+  getSpendingByMonth,
+  getSpendingByWeek,
   postDeleteSpending,
   postEditSpending,
   postSpendingByID,
@@ -18,7 +21,9 @@ import {spendingStore} from '../../../features';
 import NotifiToast from '../../../component/notifiToast/toast';
 import ModalPoup from '../../../component/Modal/Modal';
 import Notify from '../../../component/Notify/Notify';
-const EditSpending = ({navigation: {goBack}}: any) => {
+const EditSpending = ({navigation: {goBack}, ...props}: any) => {
+  console.log('params', props.route.params.key);
+
   const SpendingBD = useAppSelector(spendingStore);
   const [namect, setnamect] = useState(() => SpendingBD.listspending[0].namect);
   const [moneyct, setMoneyct] = useState(() =>
@@ -119,6 +124,27 @@ const EditSpending = ({navigation: {goBack}}: any) => {
           setVisible(true);
         }
       });
+      switch (props.route.params.key) {
+        case 0:
+          dispatch(getSpendingByDay());
+          break;
+  
+        case 1:
+          dispatch(getSpendingByWeek());
+          break;
+  
+        case 2:
+          dispatch(getSpendingByMonth());
+          break;
+  
+        case 3:
+          dispatch(getSpendingByDay());
+          break;
+  
+        default:
+          break;
+      }
+      goBack();
     }
 
     console.log({

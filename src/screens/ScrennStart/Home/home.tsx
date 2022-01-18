@@ -97,7 +97,7 @@ function Home({navigation, route}: any) {
       style={styles.itemContainer}
       onPress={() => {
         dispatch(postSpendingByID({id: item.id}));
-        navigation.navigate('editsending');
+        navigation.navigate('editsending', {key: indexSelect});
       }}>
       <View style={styles.itemSubContainer}>
         {/* <Image source={{uri: item.image}} style={styles.itemImage} /> */}
