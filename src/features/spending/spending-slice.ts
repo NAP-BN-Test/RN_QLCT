@@ -176,7 +176,7 @@ const spendingSlice = createSlice({
         state.loading = true;
       })
       .addCase(postCreateSpending.fulfilled, (state, action) => {
-        console.log('action delete', action);
+        console.log('action Thêm', action.payload);
         NotifiToast('Thêm thành công');
         // const {result, totalmoney} = action.payload;
         // state.listspending = [result];

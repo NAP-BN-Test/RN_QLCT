@@ -2,6 +2,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Header} from '@react-navigation/stack';
 import React, {useEffect} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -17,6 +18,7 @@ import Home from '../../screens/ScrennStart/Home/home';
 import colors from '../../assets/css/color';
 import PageGrow from '../../screens/Error404/pageGrow';
 import Target from '../../screens/ScrennStart/target/target';
+import {token} from '../../commom/api';
 const Tab = createBottomTabNavigator();
 
 const CustomTabBarButton = ({children, onPress}: any) => (
@@ -42,14 +44,20 @@ const TabHomeNavigation = ({navigation}: any) => {
   // const dispatch = useAppDispatch();
   // const resultAccount = useAppSelector(accountStore);
 
-  // useEffect(() => {
-  //   if (resultAccount.loading == false) {
-  //     dispatch(isLoadingGL(false));
-  //   } else {
-  //     dispatch(isLoadingGL(true));
-  //     console.log('Đang xử lý');
-  //   }
-  // }, []);
+  useEffect(() => {
+    // if (resultAccount.loading == false) {
+    //   dispatch(isLoadingGL(false));
+    // } else {
+    //   dispatch(isLoadingGL(true));
+    //   console.log('Đang xử lý');
+    // }
+    async function name() {
+      let value: string = (await AsyncStorage.getItem('token')) || '';
+      console.log('111111111111', value);
+    }
+    name();
+    console.log('token tab', token);
+  }, []);
   function onPress() {
     console.log(1);
   }

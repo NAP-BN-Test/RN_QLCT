@@ -44,6 +44,8 @@ const Login = ({navigation}: any) => {
   }, [resultAccount.loading]);
 
   useEffect(() => {
+    console.log('token login', token);
+    
     if (token) {
       console.log('Check token', token._W);
       dispatch(checkToken());
@@ -51,7 +53,7 @@ const Login = ({navigation}: any) => {
       //Có sẽ login
       //Không sẽ logout ra màn login
     }
-  }, []);
+  }, [token]);
 
   // dispatch api
   const handlePostLogin = (data: LoginType) => {

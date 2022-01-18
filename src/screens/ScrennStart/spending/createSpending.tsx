@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import NotifiToast from '../../../component/notifiToast/toast';
-import { postCreateSpending } from '../../../features/spending';
-import { useAppDispatch } from '../../../redux/hooks';
+import {postCreateSpending} from '../../../features/spending';
+import {useAppDispatch} from '../../../redux/hooks';
 const CreateSpending = ({navigation}: any) => {
   const [namect, setnamect] = useState('');
   const [moneyct, setMoneyct] = useState('');
@@ -20,7 +20,9 @@ const CreateSpending = ({navigation}: any) => {
             moneyct: Number(moneyct),
           },
         ]),
-      );
+      ).then(res => {
+        console.log(res);
+      });
     }
   }
 
