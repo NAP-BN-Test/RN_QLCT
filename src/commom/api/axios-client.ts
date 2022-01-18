@@ -11,8 +11,8 @@ export const retriveData = async () => {
   // return JSON.parse(value);
 };
 
-export var token: any = AsyncStorage.getItem('token');
-
+// export var token: any = AsyncStorage.getItem('token');
+export var token: any = retriveData();
 const axiosClient = axios.create({
   baseURL: REACT_APP_API_URL,
   headers: {
